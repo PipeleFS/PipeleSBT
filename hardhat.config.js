@@ -18,9 +18,14 @@ module.exports = {
     hardhat: {
       chainId: 1337,
     },
-    rinkeby: {
-        url: API_URL,
-        accounts: [`0x${PRIVATE_KEY}`],
+    goerli: {
+      url: API_URL,
+      accounts: [`0x${PRIVATE_KEY}`],
     },
+  },
+  etherscan: {
+    apiKey: {
+      goerli: process.env.ETHERSCAN_API_KEY,
+    }
   },
 };

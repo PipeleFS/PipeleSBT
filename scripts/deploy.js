@@ -12,6 +12,17 @@ async function main() {
   await psbt.deployed();
 
   console.log("Pipele deployed to: ", psbt.address);
+
+  await sleep(120);
+
+  await hre.run("verify:verify", {
+    address: psbt.address,
+    constructorArguments: [],
+  });
+}
+
+function sleep(s) {
+  return new Promise((resolve) => setTimeout(resolve, s * 1000));
 }
 
 // We recommend this pattern to be able to use async/await everywhere
