@@ -15,28 +15,26 @@ contract PipeleSBT is ERC1155 {
 
     mapping(uint256 => TokenInfo) public idtoinfo;
 
-    event Attest(address to, uint256 tokenId, uint256 ownershipType);
-    event AttachData(uint256 tokenId, string fileId);
+    event Attest(
+        address to,
+        uint256 tokenId,
+        uint256 ownershipType,
+        string fileId
+    );
     event Revoke(address to, uint256 tokenId);
 
     constructor(string memory pipeleUri) ERC1155(pipeleUri) {
         _tokenIdCounter.increment();
     }
 
-    function mint() public {
+    function mint(string memory fileId) public {
         uint256 id = _tokenIdCounter.current();
         _mint(msg.sender, id, 1, "");
         idtoinfo[id].owner = msg.sender;
+        idtoinfo[id].fileId = fileId;
         _tokenIdCounter.increment();
 
-        emit Attest(msg.sender, id, 1);
-    }
-
-    function attachMetaData(uint256 tokenId, string memory fileId) public {
-        require(idtoinfo[tokenId].owner == msg.sender);
-        idtoinfo[tokenId].fileId = fileId;
-
-        emit AttachData(tokenId, fileId);
+        emit Attest(msg.sender, id, 1, fileId);
     }
 
     function share(address account, uint256 id) public {
@@ -45,7 +43,7 @@ contract PipeleSBT is ERC1155 {
             "You are not the owner of this token"
         );
         _mint(account, id, 1, "");
-        emit Attest(account, id, 0);
+        emit Attest(account, id, 0, "");
     }
 
     function revoke(address account, uint256 id) public {
@@ -65,11 +63,11 @@ contract PipeleSBT is ERC1155 {
         emit Revoke(msg.sender, id);
     }
 
-    function tokenIssued() public view returns (uint256) {
+    function tokensIssued() public view returns (uint256) {
         return _tokenIdCounter.current() - 1;
     }
 
-    function getIdofCid(string memory fileId) public view returns (uint256) {
+    function getIdofFileId(string memory fileId) public view returns (uint256) {
         for (uint256 i = 1; i < _tokenIdCounter.current(); i++) {
             if (
                 keccak256(abi.encodePacked((idtoinfo[i].fileId))) ==

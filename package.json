@@ -6,16 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/darahask/PipeleSBT.git"
-  },
   "author": "darahask",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/darahask/PipeleSBT/issues"
-  },
-  "homepage": "https://github.com/darahask/PipeleSBT#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "hardhat": "^2.10.1"
